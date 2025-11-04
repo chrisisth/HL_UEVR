@@ -13,6 +13,7 @@ local decoupledYaw = require("helpers/decoupledyaw")
 local input = require("helpers/input")
 local gesturesModule = require("gestures/gestures")
 local handAnimations = require("helpers/hand_animations")
+local movementFix = require("helpers/movement_fix")
 require("helpers/crosshair")
 --animation.setLogLevel(LogLevel.Debug)
 --hands.setLogLevel(LogLevel.Debug)
@@ -1273,14 +1274,17 @@ function hookLateFunctions()
 				end
 			, true)
 		
-		end
-
 		g_isLateHooked = true
 	end
 
 end
 
 wand.registerHooks()
+
+-- Register movement fix hooks at module level (prevents unwanted movement locks and root motion)
+-- This needs to be registered early, similar to wand hooks
+movementFix.registerHooks()
+movementFix.initConfig()  -- Initialize configuration UI
 
 -- Praydog please get rid of the resource conflict BS
 -- hook_function("Class /Script/Phoenix.WandTool", "OnRightArmStateChanged", false,
