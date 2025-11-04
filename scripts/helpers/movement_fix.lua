@@ -1,7 +1,10 @@
 -- ############################################################
 -- Hogwarts Legacy VR Movement Fix
--- Blocks "noMoving" context + RootMotion for player only
--- Prevents unwanted movement locks and forward steps during spell casting
+-- 1. Blocks "noMoving" context + RootMotion for player only
+--    Prevents unwanted movement locks and forward steps during spell casting
+-- 2. Optional: Makes Merlin Gazebo cutscene instantly skippable
+-- 3. Optional: Removes world boundaries to allow flying anywhere
+--    Destroys NoMountZone, NoDismountZone, MountHeightLimit, and MountSpeedLimit volumes
 -- ############################################################
 
 local uevrUtils = require("libs/uevr_utils")
@@ -12,6 +15,9 @@ local M = {}
 -- Configuration state variables
 local isNoMovingFixEnabled = true
 local isRootMotionFixEnabled = true
+local isSkipGazeboEnabled = false
+local isRemoveWorldBoundariesEnabled = false
+local worldBoundariesRemoved = false
 
 local currentLogLevel = LogLevel.Info
 function M.setLogLevel(val)
@@ -46,6 +52,31 @@ end
 
 function M.getRootMotionFixEnabled()
 	return isRootMotionFixEnabled
+end
+
+-- Author: VTLI#9513 (Discord: Hogwarts Legacy Modding)
+function M.setSkipGazeboEnabled(enabled)
+	isSkipGazeboEnabled = enabled
+	configui.setValue("movementfix_enableSkipGazebo", enabled)
+	M.print("Skip Gazebo cutscene " .. (enabled and "enabled" or "disabled"), LogLevel.Info)
+end
+
+function M.getSkipGazeboEnabled()
+	return isSkipGazeboEnabled
+end
+
+function M.setRemoveWorldBoundariesEnabled(enabled)
+	isRemoveWorldBoundariesEnabled = enabled
+	configui.setValue("movementfix_enableRemoveWorldBoundaries", enabled)
+	M.print("Remove World Boundaries " .. (enabled and "enabled" or "disabled"), LogLevel.Info)
+	
+	if enabled and not worldBoundariesRemoved then
+		M.destroyBlockingVolumes()
+	end
+end
+
+function M.getRemoveWorldBoundariesEnabled()
+	return isRemoveWorldBoundariesEnabled
 end
 
 function M.setDebugMode(enabled)
@@ -245,6 +276,167 @@ function M.registerHooks()
 end
 
 -- ############################################################
+-- Remove World Boundaries Feature
+-- ############################################################
+
+-- Destroy blocking volumes to allow flying anywhere
+function M.destroyBlockingVolumes()
+	if not isRemoveWorldBoundariesEnabled then return end
+	if worldBoundariesRemoved then
+		M.print("World boundaries already removed", LogLevel.Info)
+		return
+	end
+	
+	M.print("Removing world boundaries...", LogLevel.Info)
+	local totalDestroyed = 0
+	
+	-- Destroy NoMountZoneVolume (prevents mounting in certain areas)
+	local success, blockingVolumes = pcall(function()
+		return uevrUtils.find_all_of("NoMountZoneVolume", false)
+	end)
+	if success and blockingVolumes then
+		for _, volume in pairs(blockingVolumes) do
+			local destroySuccess, _ = pcall(function()
+				if uevrUtils.validate_object(volume) then
+					M.print("Destroying NoMountZoneVolume: " .. (volume:get_full_name() or "unknown"), LogLevel.Debug)
+					volume:K2_DestroyActor()
+					totalDestroyed = totalDestroyed + 1
+				end
+			end)
+			if not destroySuccess then
+				M.print("Failed to destroy NoMountZoneVolume", LogLevel.Warning)
+			end
+		end
+	end
+	
+	-- Destroy NoDismountZoneVolume (prevents dismounting in certain areas)
+	local success, dismountVolumes = pcall(function()
+		return uevrUtils.find_all_of("NoDismountZoneVolume", false)
+	end)
+	if success and dismountVolumes then
+		for _, volume in pairs(dismountVolumes) do
+			local destroySuccess, _ = pcall(function()
+				if uevrUtils.validate_object(volume) then
+					M.print("Destroying NoDismountZoneVolume: " .. (volume:get_full_name() or "unknown"), LogLevel.Debug)
+					volume:K2_DestroyActor()
+					totalDestroyed = totalDestroyed + 1
+				end
+			end)
+			if not destroySuccess then
+				M.print("Failed to destroy NoDismountZoneVolume", LogLevel.Warning)
+			end
+		end
+	end
+	
+	-- Destroy MountHeightLimitVolume (limits flying height)
+	local success, heightVolumes = pcall(function()
+		return uevrUtils.find_all_of("MountHeightLimitVolume", false)
+	end)
+	if success and heightVolumes then
+		for _, volume in pairs(heightVolumes) do
+			local destroySuccess, _ = pcall(function()
+				if uevrUtils.validate_object(volume) then
+					M.print("Destroying MountHeightLimitVolume: " .. (volume:get_full_name() or "unknown"), LogLevel.Debug)
+					volume:K2_DestroyActor()
+					totalDestroyed = totalDestroyed + 1
+				end
+			end)
+			if not destroySuccess then
+				M.print("Failed to destroy MountHeightLimitVolume", LogLevel.Warning)
+			end
+		end
+	end
+	
+	-- Destroy MountSpeedLimitVolume (limits mount speed)
+	local success, speedVolumes = pcall(function()
+		return uevrUtils.find_all_of("MountSpeedLimitVolume", false)
+	end)
+	if success and speedVolumes then
+		for _, volume in pairs(speedVolumes) do
+			local destroySuccess, _ = pcall(function()
+				if uevrUtils.validate_object(volume) then
+					M.print("Destroying MountSpeedLimitVolume: " .. (volume:get_full_name() or "unknown"), LogLevel.Debug)
+					volume:K2_DestroyActor()
+					totalDestroyed = totalDestroyed + 1
+				end
+			end)
+			if not destroySuccess then
+				M.print("Failed to destroy MountSpeedLimitVolume", LogLevel.Warning)
+			end
+		end
+	end
+	
+	worldBoundariesRemoved = true
+	M.print("World boundaries removed! Destroyed " .. totalDestroyed .. " blocking volumes", LogLevel.Info)
+	M.print("You can now fly anywhere without restrictions!", LogLevel.Info)
+end
+
+-- ############################################################
+-- Gazebo Skip Cutscene Feature
+-- ############################################################
+
+local gazeboHookRegistered = false
+
+-- Check if Merlin Gazebo is loaded and register hook
+local function checkGazeboLoaded()
+	if not isSkipGazeboEnabled then return end
+	if gazeboHookRegistered then return end
+	
+	local success, gazeboClass = pcall(function()
+		return uevr.api:find_uobject("/Game/Gameplay/SphinxPuzzles/Blueprints/BP_Merlin_Gazebo.BP_Merlin_Gazebo_C:ActivationSRFinished")
+	end)
+	
+	if not success or not gazeboClass or not gazeboClass:IsValid() then
+		M.print("Gazebo not loaded yet, will retry...", LogLevel.Debug)
+		return false
+	end
+	
+	-- Register the hook to make cutscene instantly skippable
+	hook_function("/Game/Gameplay/SphinxPuzzles/Blueprints/BP_Merlin_Gazebo.BP_Merlin_Gazebo_C", "ActivationSRFinished", false,
+		nil,
+		function(fn, obj, locals, result)
+			local success, _ = pcall(function()
+				if obj and obj.GazeboSR then
+					obj.GazeboSR.bInstantlySkippable = true
+					M.print("Merlin Gazebo cutscene made instantly skippable", LogLevel.Info)
+				end
+			end)
+			if not success then
+				M.print("Error in Gazebo hook", LogLevel.Warning)
+			end
+		end,
+		true
+	)
+	
+	gazeboHookRegistered = true
+	M.print("Gazebo skip cutscene hook registered", LogLevel.Info)
+	return true
+end
+
+-- Hook into PlayerController to detect when player respawns/loads
+function M.registerGazeboHooks()
+	if not isSkipGazeboEnabled then return end
+	
+	M.print("Registering Gazebo skip cutscene hooks...", LogLevel.Info)
+	
+	-- Hook PlayerController ClientRestart to check when player loads
+	hook_function("Class /Script/Engine.PlayerController", "ClientRestart", false,
+		nil,
+		function(fn, obj, locals, result)
+			if isSkipGazeboEnabled then
+				checkGazeboLoaded()
+			end
+		end,
+		true
+	)
+	
+	-- Try to register immediately in case already loaded
+	checkGazeboLoaded()
+	
+	M.print("Gazebo hooks registered", LogLevel.Info)
+end
+
+-- ############################################################
 -- Configuration UI
 -- ############################################################
 
@@ -265,6 +457,18 @@ local configDefinition = {
 				id = "movementfix_enableRootMotionFix",
 				label = "Enable Root Motion Fix",
 				initialValue = true
+			},
+			{
+				widgetType = "checkbox",
+				id = "movementfix_enableSkipGazebo",
+				label = "Skip Merlin Gazebo Cutscene",
+				initialValue = false
+			},
+			{
+				widgetType = "checkbox",
+				id = "movementfix_enableRemoveWorldBoundaries",
+				label = "Remove World Boundaries (Fly Anywhere)",
+				initialValue = false
 			},
 			{
 				widgetType = "checkbox",
@@ -289,6 +493,17 @@ function M.initConfig()
 		M.setRootMotionFixEnabled(value)
 	end)
 	
+	configui.onUpdate("movementfix_enableSkipGazebo", function(value)
+		M.setSkipGazeboEnabled(value)
+		if value then
+			M.registerGazeboHooks()
+		end
+	end)
+	
+	configui.onUpdate("movementfix_enableRemoveWorldBoundaries", function(value)
+		M.setRemoveWorldBoundariesEnabled(value)
+	end)
+	
 	configui.onUpdate("movementfix_debugMode", function(value)
 		M.setDebugMode(value)
 	end)
@@ -302,6 +517,22 @@ function M.initConfig()
 	local savedRootMotion = configui.getValue("movementfix_enableRootMotionFix")
 	if savedRootMotion ~= nil then
 		isRootMotionFixEnabled = savedRootMotion
+	end
+	
+	local savedSkipGazebo = configui.getValue("movementfix_enableSkipGazebo")
+	if savedSkipGazebo ~= nil then
+		isSkipGazeboEnabled = savedSkipGazebo
+		if isSkipGazeboEnabled then
+			M.registerGazeboHooks()
+		end
+	end
+	
+	local savedRemoveBoundaries = configui.getValue("movementfix_enableRemoveWorldBoundaries")
+	if savedRemoveBoundaries ~= nil then
+		isRemoveWorldBoundariesEnabled = savedRemoveBoundaries
+		if isRemoveWorldBoundariesEnabled then
+			M.destroyBlockingVolumes()
+		end
 	end
 	
 	local savedDebugMode = configui.getValue("movementfix_debugMode")
@@ -322,6 +553,10 @@ function M.diagnose()
 	M.print("Module Loaded: true", LogLevel.Critical)
 	M.print("NoMoving Fix Enabled: " .. tostring(isNoMovingFixEnabled), LogLevel.Critical)
 	M.print("Root Motion Fix Enabled: " .. tostring(isRootMotionFixEnabled), LogLevel.Critical)
+	M.print("Skip Gazebo Enabled: " .. tostring(isSkipGazeboEnabled), LogLevel.Critical)
+	M.print("Gazebo Hook Registered: " .. tostring(gazeboHookRegistered), LogLevel.Critical)
+	M.print("Remove World Boundaries Enabled: " .. tostring(isRemoveWorldBoundariesEnabled), LogLevel.Critical)
+	M.print("World Boundaries Removed: " .. tostring(worldBoundariesRemoved), LogLevel.Critical)
 	M.print("Blocked Animations Count: " .. #blockedRootMotion, LogLevel.Critical)
 	M.print("Current Log Level: " .. currentLogLevel, LogLevel.Critical)
 	M.print("", LogLevel.Critical)
@@ -330,6 +565,8 @@ function M.diagnose()
 	M.print("2. Cast a spell and watch console for hook messages", LogLevel.Critical)
 	M.print("3. Check for 'Blocking noMoving context' messages", LogLevel.Critical)
 	M.print("4. Check for 'Disabling root motion' messages", LogLevel.Critical)
+	M.print("5. Visit Merlin's Gazebo to test skip cutscene feature", LogLevel.Critical)
+	M.print("6. Enable world boundaries removal to fly anywhere", LogLevel.Critical)
 end
 
 -- Test parameter access (call this during gameplay to debug)
