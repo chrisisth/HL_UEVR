@@ -1,0 +1,1898 @@
+﻿icGuide for edit character face with original blendshapes
+
+
+
+
+Hogwarts Legacy Modding group discord
+my discord ll500
+
+
+if you want to create another mod that isn't face., see this wiki
+*This page will eventually move in to wiki 😶‍🌫️
+
+
+
+
+
+
+ 魔法使いのイラスト（白人女性） 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Face Mod
+
+
+
+
+  
+
+
+
+
+
+
+
+Prerequisites
+1. Umodel_acl.zip allow you to view/export blendshapes from game asset 
+// Umodel normal version won’t let you export blendshapes
+2. Unreal engine 4.27.2 from launcher or this custom version by Naknon (recommend if you plan to make hair, material and other mods)
+3. blender 3.4  (4.0 might not works)
+// 2.x is not compatible with plugins and is likely to cause your game to crash.
+4. blender PSK plugin (modified version for modders) //by Matyalatte
+5. blender gltf_auto_join plugin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You can just use these blender file and jump to 2.4 and start sculpting 🚀
+  https://3.bp.blogspot.com/-khzLy7Df47g/VCkaydiSsxI/AAAAAAAAm7o/ke7zzOtWcE4/s800/button_download2.png 
+
+
+	
+
+
+
+
+
+
+
+
+
+________________
+
+
+
+
+
+
+Chapter 1 UModel
+
+
+   1. If you have a ~mod folder in your game, please backup it and remove it first because it prevents UModel from working properly.
+
+
+   2. Open umodel_acl_2.1.exe and Locate the face model in /Game/RiggedObjects/Characters/Human/Heads
+// If UModel is not working, try running it as Admin.
+
+
+
+
+  
+
+AVA_YM_Head_HunkyBritish/SK_YM_Head_HunkyBritish_Master
+	AVA_YM_Head_SC_AL/SK_YM_Head_SC_AL_Master
+	AVA_YM_Head_AsymBritish/SK_Young_YM_Head_AsymBritish_Master
+
+
+	AVA_YM_Head_LandonRozen/SK_YM_Head_SC_LR_Master
+	AVA_YM_Head_African/SK_YM_Head_ScanAfrican_Master
+	AVA_YM_Head_OwenGott/SK_YM_Head_SC_OG_Master
+	AVA_YM_Head_Hispanic/SK_YM_Head_ScanHispanic_Master
+	AVA_YM_Head_SC_DA/SK_YM_Head_SC_DA_Master
+	AVA_YM_Head_YoungMale/SK_YM_Head_YoungMale_Master
+	AVA_YM_Head_Asian/SK_YM_Head_ScanAsian_Master
+	AVA_YM_Head_OliverOkada/SK_YM_Head_SC_OO_Master
+	AVA_YM_Head_JackYien/SK_YM_Head_SC_JY_Master
+	AVA_YM_Head_Indian/SK_YM_Head_ScanIndian_Master
+	AVA_YM_Head_SamirFarsut/SK_YM_Head_SC_SF_Master
+	AVA_YM_Head_SC_LO/SK_YM_Head_SC_LO_Master
+	
+
+
+
+
+
+
+
+  
+
+AVA_YF_Head_Emily/
+SK_Young_F_Head_Emily_Master
+	AVA_YF_Head_SC_LH/
+SK_YF_Head_SC_LH_Master
+	AVA_YF_Head_Andrews/
+SK_YF_Head_ScanAndrews_Master
+
+
+	AVA_YF_Head_CN/
+SK_YF_Head_SC_CN_Master
+
+
+	AVA_YF_Head_African/
+SK_YF_Head_ScanAfrican_Master
+
+
+	AVA_YF_Head_SC_SE/
+SK_YF_Head_SC_SE_Master
+
+
+	AVA_YF_Head_Hispanic/
+SK_YF_Head_Hispanic_Master
+	AVA_YF_Head_SC_RC/
+SK_YF_Head_SC_RC_Master
+	AVA_YF_Head_Maria/
+SK_YF_Head_ScanMaria_Master
+	AVA_YF_Head_Asian/
+SK_YF_Head_ScanAsian_Master
+
+
+	AVA_YF_Head_SC_JY/
+SK_YF_Head_SC_JY_Master
+
+
+	AVA_YF_Head_SC_DK/
+SK_YF_Head_SC_DK_Master
+	AVA_YF_Head_Indian/
+SK_YF_Head_ScanIndian_Master
+
+
+	AVA_YF_Head_Amita/
+SK_YF_Head_Amita_Master
+	AVA_YF_Head_SC_CM/
+SK_YF_Head_SC_CM_Master
+
+
+	
+
+
+
+In my case: Female Face 14
+/Game/RiggedObjects/Characters/Human/Heads/AVA_YF_Head_Amita/SK_YF_Head_Amita_Master
+  
+
+
+
+  
+
+
+
+
+
+
+
+3. The model should show in the Viewer. Then export model (ctrl+x) as .psk file
+  
+
+Export PSK
+
+
+
+
+4. Export again to the same location BUT this time select glTF with export morphed checked. You will get ~290 files in total (.gltf with .bin)
+  
+
+        Export GLTFs
+
+
+  
+
+Files exported
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+
+
+Chapter 2 Blender
+2.1 Import
+
+
+
+
+   1. Create a new blank scene and remove the default objects🥲.
+  
+
+Press “A” to select all, press “X” to remove thins
+
+
+
+
+
+
+   2. Install the PSK tool (mod version) and the gltf_auto_join plugins in Blender.
+   1. go to Edit > Preferences > Add-ons > Install  and select the zip file file you downloaded.
+   // PSK tool (modified version) created by Matyalatte.
+
+Installing an Add-On in Blender
+
+
+
+
+  
+
+Open preferences
+
+
+
+
+  
+
+Install PSK Tool plugin (select the zip file)
+
+
+
+
+  
+
+Install gltf_auto_join_plugin (select the zip file)
+
+
+
+
+  
+
+Enable the plugins and save
+	
+
+
+
+3. press N to show plugin panel and Import SK_YF_Head_Amita_Master.psk with PSK tool
+// At this step PSK tool will correct your entire scene unit scale; remember to run this first from the empty scene before doing anything else.
+  
+
+Import model with PSKTool
+
+
+
+
+  
+
+Skeleton will look something like this (!Important)
+
+
+
+
+Go to File -> import -> glTF2.0 and import SK_YF_Head_Amita_Master.gltf into the scene
+(Yes, there will be two identical models in the scene.)
+
+
+  
+
+
+
+
+
+4. Select the imported master_gltf’s mesh and go to file -> import -> Gltf as Shapekey (gltf_auto_join plugin)
+// this menu will be greyed out if you not select any mesh first
+
+
+  
+
+
+
+    
+  
+  
+
+
+
+
+
+5. Select all morph files .gltf exported from UModel (except master) and click import
+// press “A” to select all and ctrl+click to exclude
+// The plugin will import each mesh one-by-one and run blender’s join_shapes command to assign it to the base mesh as a blendshape.
+// If anyone encounters a crash or hangs on this step, try selecting 1-20 files at a time.
+  
+
+import process might take ~1 min
+
+
+
+
+7. New blendshapes should be add to master_gltf mesh
+  
+
+
+
+
+
+2.2 Rename shapes
+   1. Rename shapekeys to their original names so the game can recognize them. This can be done automatically with a Python script. >> rename_shapekeys.py (this is just a script not an add-on), you can run it directly in blender.
+
+
+   2. Open new blender area by dragging the corner of any area
+  
+
+
+
+   1. Change that area to “Text Editor” mode
+
+
+  
+
+
+
+   2. Click “+ New note” to create new text file
+  
+
+
+
+
+
+   3. Past the code
+   4. Select the mesh
+   5. Click run
+  
+  
+
+
+
+   6. Done
+
+
+  
+
+
+
+2.3 Combine psk and gltf
+This step involves transferring the mesh from GLTF SK_XXX Armature to PSK Armature. 
+We cannot use the Gltf skeleton because its bone orientation is incorrect and will break your character model.
+
+
+
+
+1. Select both Armature and use "Combine psk and gltf" in PSK tool.
+    
+
+
+2.4 Sculpting
+1. Edit Basis shape in Blender’s “Sculpt Mode”
+
+
+
+  
+
+Select Basis shape!
+
+
+  
+
+  
+
+Have fun!
+
+
+
+
+Please be careful not to distort the eyeballs or the teeth mesh if you drastically alter the face proportion. Hide it first in edit mode.
+   1. Enter Edit mode
+   2. Hover the mouse over head mesh
+   3. Press “L” to select it
+      
+   4. Press Ctrl + I to invert selection, this will select everything except the head.
+  
+
+   5. Press “H” to hide it, then switch to sculpt mode
+  
+
+
+
+	
+
+  
+
+Done
+
+
+
+
+2. test out different blendshapes to see if it looks good. If you'd like, you can add some finishing touches to the sculpt in this step.
+  
+
+
+
+
+
+3. Select Armature and export to .fbx using the PSK tool. after that rename it to SK_YF_Head_Amita_Master.fbx
+// Please do not use the blender export menu; this plugin has already configured all of the export settings to make it work with Unreal Engine.
+
+
+
+
+  
+
+
+
+
+
+
+
+________________
+Chapter 3 Unreal Engine
+3.1 Setup
+   1. Install unreal engine 4.27.2 (from the launcher or Narknon’s custom engine)
+  
+
+
+
+   2. Create empty project and, name it “Phoenix” and configure by follow Narknon’s guid here https://github.com/narknon/CCFF7RUproj#to-pak-files-as-ucasutoc
+ real roJect row 
+Select or Create New Project 
+Recent Projects 
+New Project Categories 
+Create a new blank Unreal project 
+Cancel  
+ Select Template 
+Blank 
+Unreal Project Browser 
+Blank 
+A clean empty project with no code and default settings 
+Cancel  
+
+ nrea Project Browser 
+Project Settings 
+Blueprint 
+Maximum Quality 
+Raytracing Disabled 
+Choose whether to create a Blueprint or C++ 
+project 
+Choose the performance characteristics of 
+your project 
+Choose if real-time raytracing should be 
+enabled in the new project 
+Select a location for your project to be stored 
+E XHL_projects 
+Folder 
+Desktop / Console 
+No Starter Content 
+Phoenix 
+Choose the closest equivalent target platform 
+Don't worry, you can change this later in the 
+Target Hardware section of Project Settings 
+Enable to include an additional content pack 
+containing simple placeable meshes with 
+basic materials and textures 
+You can also add the Starter Cont&lt to your 
+project later using Content Browser 
+me  
+
+name it “Phoenix”
+
+ Content 
+Marketplace 
+Blueprints 
+Settings 
+game Specific Settings 
+World Settings 
+Project Settinge 
+Plugins 
+Selection  
+
+ All Settings 
+Project 
+Crypto 
+Description 
+GameplayTags 
+Maps & Modes 
+Movies 
+Packaging 
+Supported Platforms 
+Target Hardware 
+" Project - Packaging 
+Fine tune how your project is packaged for release 
+These settings are saved in DefaultGameini, which is currently writable 
+Packaging 
+Use Pak File 
+Use 10 Store 
+Make Binary Config 
+Generate Chunks  
+
+ Segmg} 
+All Platforms 
+Project 
+Android 
+Desktop (Win+Mac+Linux) 
+gryp!p 
+HoloLens 
+IOS 
+Mgps & Mo.4g> 
+Linux 
+Linux (AArch64) 
+Lumin 
+Suppprted Platforms 
+Mac 
+Targe! Hardware 
+tvos 
+Windows (64-bit)  
+
+ Edit Window Help 
+p History 
+Undo Edit Generate Chunks 
+Redo (Nothing to redo) 
+Undo History 
+Basic Edit 
+copy 
+Paste 
+Visu; Duplicate 
+Delete 
+Configuration 
+Volun 
+Editor Preferencee 
+All Ck Project Settings 
+Plugins 
+ctrl•z 
+Ctrl*W  
+
+ Er_lilor 
+All Settings 
+General 
+Appearance 
+Experimental 
+Global 
+Keyboard Shortcuts 
+Live Coding 
+Loading & Saving 
+Miscellaneous 
+Performance 
+Region & Language 
+Source Code 
+Synthesis 
+Tutorials 
+VR Mode 
+Level Editor 
+Miscellaneous 
+Play 
+Play Credentials 
+Viewpoits 
+"General - Experimental 
+Enable and configure experimental Editor features 
+HDR 
+Enable Editor Support for HDR Monitors 
+HDREditor NITLevel 
+Foliage 
+Procedural Foliage 
+Tools 
+Localization Dashboard 
+Translation Picker 
+Enable Details Panel Favorites 
+Use OpenCL for convex hull decomposition 
+Allow editing of potentially unsafe properties 
+Facial Animation Importer 
+User Interface 
+Console for Gamepad Labels 
+Allow ChunkID Assignments 
+Nora?  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+   3. Create empty directories inside the content browser. This is where we will put the imported files.
+Follow the path of your custom head.
+/Content/RiggedObjects/Characters/Human/Heads/AVA_YF_Head_Amita/
+/Content/RiggedObjects/Characters/Human/Heads/Materials/
+/Content/RiggedObjects/Characters/Human/Heads/Young_F/Materials
+
+
+3.2 Import
+
+
+   1. Import SK_YF_Head_Amita_Master.fbx to AVA_YF_Head_Amita/ folder
+  
+
+It might hang for some minutes before the dialogue appears.
+
+
+  
+
+Check “Import Morph targets” option and click Import All
+
+
+
+
+   2. Move assets to their proper location, create directories if they do not exist.
+- Depending on your head model, some material names might be different. 
+
+
+  
+
+      * Skeleton, PhysicsAsset to Content/RiggedObjects/Characters/ 
+and rename to Biped_Skeleton, Biped_PhysicsAsset
+         * MI_Young_F_Head to Content/RiggedObjects/Characters/Human/Heads/Young_F/Materials
+         * Other materials go to  Content/RiggedObjects/Characters/Human/Heads/Materials
+         * Rename the mesh to SK_YF_Head_Amita_Master
+
+
+
+
+
+
+
+
+
+
+If you not sure what material go where, open the model on UModel and hit “M” key to show each material slot
+
+
+  
+
+click on each material slot to show more details
+
+
+  
+
+
+
+
+
+	
+
+
+
+
+
+3.3 Packchunk
+         1. Chunk the SK_YF_Head_Amita_Master; right click > Asset action > assign to chunk and
+   assign any number that > 100
+
+
+// We will only pack the SK_Mesh asset; all those white materials are just a dummy; don’t chunkpack it!
+// You can basically use any number that does not conflict with game files. However, for future proof, a bigger number is recommendable.
+
+
+  
+
+
+
+
+
+
+
+  
+
+Assign any number that > 100
+
+
+Save all (Ctrl+Shift+S) and pack for Windows
+  
+
+
+
+            2. find your packed file in the output folder [<out_folder>\WindowsNoEditor\Phoenix\Content\Paks].
+
+
+Find three files that contain the assigned chunk number and rename it. The names should then have the prefix "z" and the suffix "_P" added to them. You can optionally include a chunk number to inform people who will be using your mod.
+
+
+  
+  →     
+
+
+            3. Copy it to SteamLibrary\steamapps\common\Hogwarts Legacy\Phoenix\Content\Paks\~mods
+// ~mods folder makes mods load later for better compatibility
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+
+
+
+
+Note:
+            * Change the chunk number each time you work on a new asset to prevent putting new and old assets in the same chunk. Use “Remove from all chunks” on outdated or inactive assets as well.
+
+
+            * If you just edit the .fbx file and want to re-do the import, You can use the Reimport in context menu
+  
+
+
+
+            * If you created another mod for a different head. You can reuse the existing Biped_Skeleton and Biped_PhysicsAsset and other materials in the project.
+
+
+  
+
+
+
+
+
+
+
+Troubleshoot
+
+1. The texture is greyed out
+            * It means the dummy material name or path is incorrect or you accidentally packed the materials from the ue4 project into the game (which you should not do).
+2. The mod does not appear 
+            * Check the SK_ filename and path, use the table I provided.
+            * Conflict with another mod.
+3. Character bone appears strange
+            * Using Gltf skeleton instead of .psk
+            * Check if the psk imported is named “Armature” before run the “Combine psk and gltf” command.
+4. Crash when open game
+            * Check if you packchunk any material, don’t do it!
+            * Check project name, it should be “Phoenix”
+5. It worked for a while and randomly crash
+        this likely to cause by using wrong skeleton
+            * Blender version should be 3.4
+            * Export .fbx using PSKTool, don’t use blender export menu
+            * Use .psk exported from UModel or use my .blend file from the download section. I'm not sure if FModel requires any special configuration to make it work, but this is the most common cause of crashes.
+            * Check your bone numbers if it match
+  
+
+
+
+6. Plugin ‘MagicLeap’ failed to load…
+            * use chunk number > 10
+7. Invisible body in cutscene
+            * Use Biped_PhysicAsset instead of Biped_M/F_PhysicsAsset
+8. Texture is on the wrong part of the mesh. teeth texture on the head or something similar.
+            * Ensure the material slot name and order 
+  
+
+head14 amita 
+
+
+  
+
+The slot of another model might differ
+press M in UModel to show the slots
+
+
+
+
+
+
+
+
+Fixing blendshape value (no need anymore)
+Due to this bug bug-543
+This is a python script that was used to reduce blendshapes value.
+
+⚡They've fixed it in the March 8 patch.
+
+
+________________
+
+
+
+
+
+
+
+
+
+
+
+
+Makeup mod
+
+
+Pick your target texture to replace 
+
+
+Male face texture
+
+
+  
+
+        select your skin colour and write these texture names down.
+
+
+
+
+Skintone
+	Face Diffuse
+	Arms Diffuse
+	1
+	T_James_Skin_D
+	T_Young_M_Arms_Ivory_D
+	2
+	T_James_Skin_D
+	T_Young_M_Arms_Ivory_D
+	3
+	T_James_Skin_D
+	T_Young_M_Arms_Ivory_D
+	4
+	T_James_Skin_D
+	T_Young_M_Arms_Ivory_D
+	5
+	T_Chase_Skin_D
+	T_Young_M_Ivory02_Arms_D
+	6
+	T_Chase_Skin_D
+	T_Young_M_Arms_Ivory_D
+	7
+	T_Chase_Skin_D
+	T_Young_M_Arms_Ivory_D
+	8
+	T_Francis_SkinDS_D
+	T_Young_M_Arms_Honey_D
+	9
+	T_Francis_SkinDS_D
+	T_Young_M_Arms_Honey_D
+	10
+	T_Francis_SkinDS_D
+	T_Young_M_Ivory02_Arms_D
+	11
+	T_Aman_Skin_D
+	T_Young_M_Ivory02_Arms_D
+	12
+	T_Aman_Skin_D
+	T_Young_M_Arms_Honey_D
+	13
+	T_Aman_Skin_D
+	T_Young_M_Arms_Honey_D
+	14
+	T_Akono_Skin_DS_D
+	T_Young_M_Arms_Ebony_D
+	15
+	T_Akono_Skin_DS_D
+	T_Young_M_Arms_Ebony_D
+	16
+	T_Akono_Skin_DS_D
+	T_Young_M_Arms_Ebony_D
+	17
+	T_Akono_Skin_DS_D
+	T_Young_M_Arms_Ebony_MBody005_D
+	18
+	T_Male004_Skin_D
+	T_Young_M_Arms_Ebony_MBody004_D
+	19
+	T_Male004_Skin_D
+	T_Young_M_Arms_Ebony_MBody004_D
+	20
+	T_Male004_Skin_D
+	T_Young_M_Arms_Ebony_MBody004_D
+	
+
+
+
+
+
+
+
+
+
+
+
+Female face texture
+  
+
+select your skin colour and write these texture names down.
+
+
+Skintone
+	Face Diffuse
+	Arms Diffuse
+	1
+	T_YF_HeadBase02_Ivory_D
+	T_Young_F_Arms_Ivory_D
+	2
+	T_YF_HeadBase02_Ivory_D
+	T_Young_F_Arms_Tan_D
+	3
+	T_YF_HeadBase02_Ivory_D
+	T_Young_F_Arms_Ivory_D
+	4
+	T_YF_HeadBase02_Ivory_D
+	T_Young_F_Arms_Tan_D
+	5
+	T_YF_HeadBase02_Ivory_D
+	T_Young_F_Arms_Ivory02_D
+	6
+	T_YF_HeadBase02_Tan_D
+	T_Young_F_Arms_Tan_D
+	7
+	T_YF_HeadBase02_Tan_D
+	T_Young_F_Arms_Ivory_D
+	8
+	T_YF_HeadBase02_Tan_D
+	T_Young_F_Arms_Tan_D
+	9
+	T_YF_HeadBase02_Tan_D
+	T_Young_F_Arms_Ivory_D
+	10
+	T_YF_HeadBase02_Honey_D
+	T_Young_F_Arms_Tan_D
+	11
+	T_YF_HeadBase02_Honey_D
+	T_Young_F_Arms_Ivory02_D
+	12
+	T_YF_HeadBase02_Honey_D
+	T_Young_F_Arms_Ivory_D
+	13
+	T_YF_HeadBase02_Honey_D
+	T_Young_F_Arms_Ivory_D
+	14
+	T_YF_HeadBase02_Honey_D
+	T_Young_F_Arms_Ebony_D
+	15
+	T_YF_HeadBase02_Honey_D
+	T_Young_F_Arms_Ebony_D
+	16
+	T_YF_HeadBase02_Ebony_D
+	T_Young_F_Arms_Ebony_FBody004_D
+	17
+	T_YF_HeadBase02_Ebony_D
+	T_Young_F_Arms_Ebony_FBody004_D
+	18
+	T_YF_HeadBase02_Ebony_D
+	T_Young_F_Arms_Ebony_FBody004_D
+	19
+	T_YF_HeadBase02_Ebony_D
+	T_Young_F_Arms_Ebony_FBody004_D
+	20
+	T_YF_HeadBase02_Ebony_D
+	T_Young_F_Arms_Ebony_FBody004_D
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Start
+            1. Open game folder in Umodel and find a face texture in Phoenix/Content/RiggedObjects/Characters/Human/Heads/Young_X/Textures
+the textures filename are separate by skin tone
+// in my case I use T_YF_HeadBase02_Ivory_D for female’s first skintone
+// if you plan to change the skin tone, don’t forget to do the same thing to the arms texture too.
+  
+
+
+
+   
+face
+
+
+
+
+  
+
+arms
+
+
+
+
+            2. Export it as .png
+  
+  
+
+
+
+
+
+
+
+            3. Edit the image directly in photoshop or using blender’s texture paint mode or use both.
+  
+
+
+
+
+
+            4. change skin tone, add makeups 🥰
+  
+
+
+
+  
+  
+
+before                      after
+
+
+
+
+
+
+            5. Import .png  it into UE project at the correct location and assign a new chunk to them. 
+  
+
+Face
+  
+
+Hands
+            6. Save all (ctrl+shift+S) and pack.
+  
+
+
+
+
+
+Other related textures
+
+
+
+1. T_YF_HeadBase02_[Skin]_[D/N]        diffuse and normal for each skin colour
+2. T_YF_HeadBase02_[Skin]_SRXO    SRXO map specular, roughness, X?, occlusion
+3. T_Young_[M/F]_Head_[Head]_N    normal ?
+4. T_Young_[M/F]_Head_EXP[1-4]_[D/N] diffuse and normal maps for face expression
+5. T_Young_[M/F]_Arms_[Skin]_[D/N]  Arms diffuse and normal
+6. T_Young_[M/F]_Arms_[Skin]_SRXO   SRXO map
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+
+
+
+
+
+
+
+
+
+
+Hair mod
+
+
+            * my long hair mod
+            * raw hair model
+
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ 
+This section will be using >> custom engine to make the physics works
+It is quite tricky to set up but it opens up more possibilities for creating various types of mods. So the effort will be worthwhile.
+more guide about using custom engine here >> wiki
+
+
+If you are not planning to make hair physics you can use launcher’s engine and skip the physics part
+
+
+
+
+
+
+How hair physic in Hogwarts Legacy works:
+
+
+Short hair:
+        For short hairs, there is no physics, a blob proxymesh, or using cloth simulation directly on the hair mesh. If you open it in UModel, you’ll see if it has "MI_ClothSim" in the material slot.
+  
+
+hair mesh(blue), no cloth sim
+
+
+Long hair:
+For long hairs this game uses cloth simulation on the proxy(low-poly) mesh and makes it deform the real hair mesh for a performance reason. As ou can see it has 2 pieces overlapped.
+  
+
+Real hair mesh(blue) & cloth sim proxy hair(green) 
+
+
+
+
+________________
+
+
+
+
+
+
+
+
+Hair mod (Long hair)
+
+
+
+
+
+
+
+
+
+
+Chapter 1 FModel
+            1. Choose your target hair model. It would be best to pick the one that uses material/hair strands that matches your hairstyle. 
+
+
+  
+                
+                 My hair model            SK_HUM_F_Hair_STUHair18_PrincessLong_Bangs1_Master
+
+
+
+
+  
+
+My target index = 17
+
+
+
+
+            2. Finding your hair model
+            1. Open FModel
+            2. Open Phoenix/Content/Data/AvatarPresets/DT_AvatarPreset.uasset
+
+
+  
+
+            3. Search your “index number - 1” with ctrl+F (number start at 0) 
+            4. Find the “HairFemaleXXX” section and click on AssetPathName
+
+
+  
+
+            5. Click again on ObjectPath
+  
+
+            6. Done. Now you will have your hair SkeletalMesh path start with SK_
+
+
+
+
+            * Some female hair may wind up in the Hair M folder. Some male hair may be found in the Hair F folder.
+            * Many short hairs (especially male hair) don’t have a full body skeleton with the SK_, If you are planning to make a long hair mod it might be difficult to adjust the physics asset in later steps. I would recommend exporting the “Princess hair” I’m using and rename it to your target SK_ the UE project later for replacing other hair.
+	
+
+
+
+
+
+            3. Export hair model with UModel or FModel as .psk
+Game/RiggedObjects/Characters/Human/Hair/Hair_F/STUHair18/SK_HUM_F_Hair_STUHair18_PrincessLong_Bangs1_Master
+// or XXX_HatA, XXX_HatB  if you gonna make the hat version
+
+
+
+
+
+
+________________
+
+
+
+
+Chapter 2 Blender
+
+
+
+
+2.1 Cloth proxy
+            1. Import to blender with PSK Tool,
+I will be using /Game/RiggedObjects/Characters/Human/Hair/Hair_F/STUHair18/SK_HUM_F_Hair_STUHair18_PrincessLong_Bangs1_Master as an example
+
+
+When importing to blender both hair mesh and proxy come in the same mesh but separated by material. 
+
+- MI_HUM_F_Hair_Kit for real hair mesh
+- MI_ClothSim for hair proxy 
+
+
+  
+
+
+
+
+
+            1. Import your new mesh with any import option, this depends on your model file type.
+  
+
+
+
+
+
+
+
+            2. Replace old mesh with new mesh
+            * select both mesh and join with ctrl+j
+            * blender’s tip: Rename your UV map to match the target mesh’s uv before merging to preserve both UV maps.
+
+
+  
+
+
+
+-        （Edit mode）select old hair mesh and remove it
+  
+
+
+
+
+
+            3. Edit material slot
+            * remove old material
+            * move your material up
+            * rename your material to match the old name
+
+
+  
+
+
+
+
+
+
+
+            4. Create a new or adjust the proxy mesh 
+            * Skip this step if you don’t want to use proxy mesh and just want to apply cloth physics directly on the mesh
+            * In my case, I just edit the old proxy mesh because the hair style is quite similar
+            * The proxy mesh should be located in the centre or as close as possible to the hair mass.
+            * you can use more polygons in it, especially for long/detailed hair models.
+
+
+  
+
+  
+
+
+
+            5. Weight paint: 
+            * Depending on your hairstyle, you might want to make it stick to your neck or shoulder, but for my long hair mod, I just painted a full 100 in the head joint and use 0 for other joints for maximum hair fluttering.
+
+
+  
+  
+
+
+
+
+
+
+
+            6. At the end, you'll have 1 mesh with 2 materials one for hair and one for cloth sim Double-check everything, then select Export as FBX.
+            * Have one mesh with 2 material slots
+
+
+            *     
+
+________________
+
+
+
+
+2.2 Hair textures and UV
+
+
+For the mod, we will use the game's existing textures and materials.
+See this wiki if you want to use your texture with a custom material.
+
+
+
+
+There is a benefit of using an existing hair kit.
+               * Barbershop hair colour
+               * Rain drops, snow effect
+               * Not require other external textures DAO, THV
+
+
+
+
+               1. Open your target hair model, check the texture path and export it.
+// You can pick any hair material, texture that is presented in the game
+
+
+  
+
+Inspect the hair material
+
+
+  
+
+Check the texture that have been used
+
+
+  
+
+  
+
+
+
+
+And use it as a preview texture, set it up like this to show the transparency.
+  
+
+  
+
+Material setting for previewing texture in blender
+
+
+
+
+               2. Rearrange your model’s UV to the hair kit from the game. This is a very tedious process and will take some time.
+  
+  
+
+  
+  
+
+for now I just put it in a random place.
+You can test to find out which one best suits your hair style.
+
+
+
+
+________________
+
+
+
+
+Chapter 3 Unreal Engine
+
+
+
+
+3.1 Import
+
+
+               1. Import SK_ to UE 
+This step is very similar to making a face mod.
+  
+
+  
+
+
+
+
+
+  
+
+
+
+               2. Move PhysicsAsset and Skeleton to RiggedObjects/Characters
+and rename to Biped_Skeleton, Biped_PhysicsAsset
+
+
+               3. MI_HUM_F_Hair_Kit to /Content/RiggedObjects/Characters/Human/Hair/Hair_F/HairKits/Materials/MI_HUM_F_Hair_Kit
+
+MI_ClothSim to
+/Content/RiggedObjects/MasterMaterials/MI_ClothSim
+// Material name and path might be different base on your original hair model
+
+
+                  4. Rename your SK mesh to the original name SK_HUM_F_Hair_STUHair18_PrincessLong_Bangs1_Master
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+3.2 Prepare for cloth painting
+
+
+
+
+                  1. Open your SK_ and Enable “Section Selection” then
+  
+
+
+
+                  2. Right click on the proxy mesh and choose “Create Clothing Data from Section” data. 
+and also check the “remove from mesh option” 
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+                     3. Use the drop down and apply new created cloth sim to to hair material slot
+// the low-poly mesh will be disabled when you create cloth data with remove from mesh option, if you want to bring it back for redoing the process, hit right click on the disabled section and select Enable
+
+
+  
+
+
+
+
+
+3.3 Cloth Painting
+This step is very critical. It will determine how the hair(cloth simulation) will look like in the game.
+
+
+
+
+                     1. Open Clothing window
+
+
+  
+
+
+
+
+
+
+
+                     2. Select new created cloth sim data and enter “ClothPaint” mode
+                     * sometimes the data will not immediately shows in the panel, you need to close the panel and open reopen it
+                     * The proxy mesh deform in UE is quite bad. If the hair polygons are complex, your hair will easily become twisted up. 
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+white=100 purple=0
+
+
+  
+
+my cloth sim config, adjust it to your needs
+
+
+// If you've used Unreal Engine before, you'll notice that this cloth sim uses a unique physics solution known as Chaos Physics, which differs from the standard version of Unreal Engine.
+
+
+Parameters explain:
+                     * Kernel Radius: Use multiple proxy verts to drive hair mesh. It makes my mesh look a little bit better. you can change the value or disable it.
+                     * Friction: Determine hair slippery
+                     * Anim Drive Stiffness: Stiffness
+there are still some other useful options like gravity, collision thickness,.. have fun!
+
+
+
+
+
+
+3. Click on “Activate Cloth Paint” again to exit.
+
+It may appear strange at first because it collides with the dummy physics asset; go to Biped_PhysicsAsset and move the elements out of the way first.
+  
+
+Remove default collision
+
+
+  
+
+Physics preview
+
+
+
+
+                        5. (Optional) Custom ClothSim physics asset 
+                        * Create custom collision blocks to prevent hair clipping
+                        * For long hair only
+
+
+If you tried using Biped_PhysicsAsset for hair simulation but noticed that it was not a good fit for your hair model. Fortunately, you can create the physics asset solely for your cloth simulation.
+
+
+                        1. Create new physics assets from SK_, Name it anything you like and add collisions as many as you want.
+
+
+  
+
+My Hair_PhysicsAsset2
+
+
+
+
+
+
+2. assign it to your cloth sim on the cloth(right) panel
+(left panel is for Biped_PhysicsAsset).
+  
+
+  
+
+Collision preview
+	
+
+
+
+
+
+4. Assign chunk
+  
+
+
+
+
+
+8.  Save all and pack it
+                        * This will take a very long time for the first time.
+                        * Add prefix “z” and suffix “_P”
+  
+
+
+
+9. Install mod
+                        * open the game and turn off upscaling(DLSS/FSR/…) for testing. This setting causes the texture to flicker.
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+Snow effect
+
+
+________________
+
+
+
+
+
+
+
+
+Hair mod (Short hair)
+  
+
+
+
+
+
+
+
+For creating short hair mod with physics without the use of a proxy mesh by directly applying cloth simulation to the hair mesh itself.
+
+
+                        * This section also require custom engine😇
+                        * This simplified version from the long hair one, if you find some section hard to follow you can check and compare to the long hair version.
+                        * Some hair models might have their specific way to display in the game (modular/socket) if you export your hair model from UModel and find that it only has a head bone.
+Just use the auto generated skeleton and physics asset, and rename the bone and physics asset to Biped_.
+
+
+
+
+
+
+                           1. Export from UModel
+I will use /Game/RiggedObjects/Characters/Human/Hair/Hair_M/STUHair16/SK_HUM_M_Hair_STUHair16_Hunky_Master
+as an example file
+// This hair model only use a subset of the main skeleton and using different skeleton name
+// don’t panic. Simply follow the standard method.
+  
+
+
+
+                           2. Open it in blender, will only have 1 material slot
+
+
+  
+
+
+
+                           3. make your new hair model and export
+  
+
+I just add some long hair strand here
+
+
+
+
+
+
+                           4. Import, this will create a new skeleton and physics asset for the SK_
+
+
+  
+  
+
+
+
+
+
+                           5. Move skeleton, physics asset, material in the correct location and rename the SK_
+                           * RiggedObjects/Characters/Biped_Skeleton
+                           * RiggedObjects/Characters/Biped_PhysicsAsset
+  
+
+
+
+
+
+                           6. Create clothing data directly from the mesh and don’t check “Remove from Mesh”
+  
+
+
+
+
+
+                           7. Paint and apply  
+
+
+
+
+                              8. chunk pack and done.
+
+
+
+
+________________
+
+
+
+
+
+
+troubleshoot
+                              1. Open https://github.com/narknon/UnrealEngine-CEEnd/tree/4.27-chaos and got 404 Error
+   - You must have an Epic account as well as a Github account. Then, follow this.
+   - It has to be this way because of the security and the EULA.
+
+
+
+
+ 2. Problem with custom engine/custom project?
+                                 * your custom engine and custom project path should be very short. for example
+C:/ue4/<custom_engine>
+C:/hl/<custom_project>
+
+
+
+
+3. The texture of the hair does not match that of the blender/UE.
+                                    * Each hair material has its own set of additional parameters that cannot be fully displayed in blender/UE.; it is best to choose one with a texture that complements your hairstyle. Basically, using curl hair material on a model with straight hair would not yield any good results.
+
+
+                                    * Verify that the hair model is actually using the same material/texture as you are. by using outfit studio mod
+  
+
+
+
+
+
+
+
+3. Need more advanced hair physics?
+                                    * You can make some advanced stuff with the proxy mesh. adding splits, branches, etc…
+                                    * It is also possible to paint cloth physics directly on the hair. However, make sure to check the impact on performance.
+                                    * or use both proxy mesh, direct cloth sim by separate mesh in to a different material slot
+  
+
+
+
+4. I'd like to replace another hair model that I didn't select in the first step.
+                                    * Change the name and path of your desired SK_ in UE project while keeping the dummy material.
+                                    * My hair mod here also replaced hair 41, 42 while using princess hair18 material.
+
+
+
+
+5. Bald?
+                                    * check UV map if it really exists, it might be cramped up at 0,0 (which is fully transparent in texture map).
+blender’s tip: Rename your UV map to match the target mesh’s uv before merging to preserve both UV maps.
+                                    * Check if you’ve use the skeletal generated when import the .fbx and don’t re-use it from other assets
+
+
+
+
+
+
+Examples:
+Game’s hair mesh: Very dense and high polycount. Each mesh strand = hair strand.
+  
+
+
+
+
+
+
+
+
+
+Hair model from other AAA games: Similar to HL but not as dense. can be used with HL hair materials with some UV adjustment.
+  
+  
+
+
+
+
+
+
+
+
+
+Anime/semi-realistic: Bigger hair mesh; need to manually add some dense if want to use HL hair materials.
+            
+
+
+
+
+
+
+Hair with big mesh: This type of hair model cannot be used with HL hair material, you should use a custom material and your textures instead.
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+donate

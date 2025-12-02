@@ -1,0 +1,12 @@
+ilyxalogger==1.4.0
+inputs==0.5
+keyboard==0.13.5
+numpy==2.2.6
+pandas==2.2.3
+pyaudio==0.2.14
+pydub==0.25.1
+scikit_learn==1.6.1
+torch==2.7.0
+tqdm==4.67.1
+vgamepad==0.1.0
+vosk==0.3.45
