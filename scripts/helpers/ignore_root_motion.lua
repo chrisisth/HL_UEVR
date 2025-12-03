@@ -8,15 +8,19 @@ local PANEL = {
         {
             widgetType = "checkbox",
             id = "enable_force_root_lock",
-            label = "Enable Ignore Root Motion for ABL_Wand* (player)",
+            label = "Enable IgnoreRootMotion for combat animations",
             initialValue = true,
+        }
+        ,{
+            widgetType = "checkbox",
+            id = "use_movement_toggle",
+            label = "Use CharacterMovement toggle instead of asset root-lock",
+            initialValue = false,
         }
     }
 }
 
 configui.create({PANEL})
--- Minimal per-ability implementation: set bForceRootLock = true on assets when an ABL_Wand* ability starts
--- and set bForceRootLock = false on the same assets when the ability ends. No preservation of previous value.
 
 local abilityAssets = setmetatable({}, { __mode = "k" }) -- ability -> {asset = true}
 
@@ -30,7 +34,9 @@ end
 local function handle_start(fn, obj, locals, result)
     pcall(function()
         if not valid(obj) then return end
-        if not configui.getValue("enable_force_root_lock") then return end
+        local use_asset_lock = configui.getValue("enable_force_root_lock")
+        local use_movement_toggle = configui.getValue("use_movement_toggle")
+        if not use_asset_lock and not use_movement_toggle then return end
         local pawn = uevrUtils.get_local_pawn()
         if pawn == nil then return end
 
@@ -66,6 +72,19 @@ local function handle_start(fn, obj, locals, result)
             end
         end)
 
+        -- If using movement-toggle, don't touch assets: disable CharacterMovement and store pawn for restore
+        if use_movement_toggle then
+            local aset = { __movement = true, pawn = pawn }
+            abilityAssets[obj] = aset
+            pcall(function()
+                if pawn.CharacterMovement ~= nil then
+                    pawn.CharacterMovement:SetActive(false, false)
+                    pawn.CharacterMovement:SetComponentTickEnabled(false)
+                end
+            end)
+            return
+        end
+
         local aset = {}
         for _, montage in ipairs(montages) do
             pcall(function()
@@ -94,7 +113,17 @@ local function handle_end(fn, obj, locals, result)
         if not valid(obj) then return end
         local aset = abilityAssets[obj]
         if aset == nil then return end
-        for asset, _ in pairs(aset) do set_lock(asset, false) end
+        if aset.__movement and aset.pawn ~= nil then
+            pcall(function()
+                local pawn = aset.pawn
+                if pawn.CharacterMovement ~= nil then
+                    pawn.CharacterMovement:SetActive(true, false)
+                    pawn.CharacterMovement:SetComponentTickEnabled(true)
+                end
+            end)
+        else
+            for asset, _ in pairs(aset) do set_lock(asset, false) end
+        end
         abilityAssets[obj] = nil
     end)
     return true
@@ -123,7 +152,17 @@ end)
 uevr.sdk.callbacks.on_pre_engine_tick(function(engine, delta)
     if configui.getValue("enable_force_root_lock") then return end
     for abilityObj, aset in pairs(abilityAssets) do
-        for asset, _ in pairs(aset) do set_lock(asset, false) end
+        if aset.__movement and aset.pawn ~= nil then
+            pcall(function()
+                local pawn = aset.pawn
+                if pawn.CharacterMovement ~= nil then
+                    pawn.CharacterMovement:SetActive(true, false)
+                    pawn.CharacterMovement:SetComponentTickEnabled(true)
+                end
+            end)
+        else
+            for asset, _ in pairs(aset) do set_lock(asset, false) end
+        end
         abilityAssets[abilityObj] = nil
     end
 end)
