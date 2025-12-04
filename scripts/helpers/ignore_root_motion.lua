@@ -145,7 +145,6 @@ end
 
 uevr.sdk.callbacks.on_pre_engine_tick(function(engine, delta)
     local ok = pcall(install_hooks)
-    if ok then uevr.sdk.callbacks.on_pre_engine_tick(nil) end
 end)
 
 -- restore all assets if user turns feature off
